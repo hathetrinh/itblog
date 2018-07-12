@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="init_table_user" author="ttha" runOnChange="true">
+
+        <preConditions onFailMessage="table user is exists" onFail="MARK_RAN" onError="MARK_RAN">
+            <not>
+                <tableExists tableName="user"></tableExists>
+            </not>
+        </preConditions>
+
+        <createTable tableName="user">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"></constraints>
+            </column>
+            <column name="email" type="varchar(100)">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="password" type="varchar(42)">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="create_at" type="date">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="expired" type="boolean">
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="init_table_role" author="ttha" runOnChange="true">
+        <preConditions onError="MARK_RAN" onFail="MARK_RAN" onFailMessage="table role is exists">
+            <not>
+                <tableExists tableName="role"></tableExists>
+            </not>
+        </preConditions>
+        <createTable tableName="role">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"></constraints>
+            </column>
+            <column name="name" type="varchar(30)">
+                <constraints nullable="true"></constraints>
+            </column>
+            <column name="description" type="varchar(500)"></column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="user_role" author="ttha">
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN" onFailMessage="Table does not exists">
+            <tableExists tableName="user"></tableExists>
+            <tableExists tableName="role"></tableExists>
+        </preConditions>
+        <createTable tableName="user_role">
+            <column name="id" autoIncrement="true" type="int">
+                <constraints primaryKey="true"></constraints>
+            </column>
+            <column name="user_id" type="int"></column>
+            <column name="role_id" type="int"></column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="user_role" baseColumnNames="user_id" constraintName="fk_user_id"
+                                 referencedTableName="user"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"></addForeignKeyConstraint>
+        <addForeignKeyConstraint baseTableName="user_role" baseColumnNames="role_id" constraintName="fk_role_id"
+                                 referencedTableName="role"
+                                 referencedColumnNames="id"
+                                 onUpdate="RESTRICT"
+                                 onDelete="CASCADE"></addForeignKeyConstraint>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="add_role_data" author="ttha">
+        <sql>
+            <![CDATA[
+            INSERT INTO role (name, description) VALUES ('ADMIN', 'admin');
+            INSERT INTO role (name, description) VALUES ('SYSTEM', 'system');
+            INSERT INTO role (name, description) VALUES ('TEACHER', 'teacher');
+            INSERT INTO role (name, description) VALUES ('STUDENT', 'student');
+            INSERT INTO role (name, description) VALUES ('USER', 'user');
+]]>
+        </sql>
+    </changeSet>
+</databaseChangeLog>

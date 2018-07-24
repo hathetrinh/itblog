@@ -2,6 +2,7 @@ package com.trinhha.demo.itblog.resource;
 
 import com.trinhha.demo.itblog.controller.IndexController;
 import com.trinhha.demo.itblog.controller.RoleController;
+import com.trinhha.demo.itblog.controller.UserController;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
@@ -10,10 +11,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 @Component
-@Path("blog")
+@Path("api")
 @Consumes({"application/hal+json", "application/json"})
 @Produces({"application/hal+json", "application/json"})
-public class MappingResource {
+public class UrlMappingEntry {
 
     @Inject
     private IndexController indexController;
@@ -21,13 +22,21 @@ public class MappingResource {
     @Inject
     private RoleController roleController;
 
+    @Inject
+    private UserController userController;
+
     @Path("index")
-    public IndexController routeIndexController() {
+    public IndexController routeToIndexController() {
         return indexController;
     }
 
     @Path("role")
-    public RoleController routeRoleController() {
+    public RoleController routeToRoleController() {
         return roleController;
+    }
+
+    @Path("user")
+    public UserController routeToUserController() {
+        return userController;
     }
 }

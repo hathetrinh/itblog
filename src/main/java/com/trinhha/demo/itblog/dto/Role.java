@@ -5,20 +5,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity
 @Data
 @Table(name = "role")
 @AllArgsConstructor
 @NoArgsConstructor
-public class DtoRole {
+public class Role implements Serializable {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "role_id")
     @GeneratedValue
     private int id;
 
     @Column(name = "name")
+    @NotNull
     private String name;
 
     @Column(name = "description")

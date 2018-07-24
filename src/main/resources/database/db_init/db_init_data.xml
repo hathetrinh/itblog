@@ -6,7 +6,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <changeSet id="add_role_data" author="ttha">
+    <changeSet id="add_data" author="ttha">
         <sql>
             <![CDATA[
             INSERT INTO role (name, description) VALUES ('ADMIN', 'admin');
@@ -14,6 +14,10 @@
             INSERT INTO role (name, description) VALUES ('TEACHER', 'teacher');
             INSERT INTO role (name, description) VALUES ('STUDENT', 'student');
             INSERT INTO role (name, description) VALUES ('USER', 'user');
+
+            INSERT INTO user (email, password, create_at, expired) VALUES ('admin', 'admin', now(), false);
+            INSERT INTO user_roles (user_id, role_id) VALUES (1, 1);
+
 ]]>
         </sql>
     </changeSet>

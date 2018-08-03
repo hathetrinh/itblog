@@ -10,4 +10,6 @@ public interface UserService {
     void saveUser(User user);
 
     List<User> findAllUsers();
+
+    User updateUser(User user);
 }

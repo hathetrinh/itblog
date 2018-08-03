@@ -6,68 +6,40 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <changeSet id="init_table_user" author="ttha" runOnChange="true">
+    <changeSet id="init_table" author="ttha" runOnChange="true">
 
-        <preConditions onFailMessage="table user is exists" onFail="MARK_RAN" onError="MARK_RAN">
-            <not>
-                <tableExists tableName="user"></tableExists>
-            </not>
-        </preConditions>
+        <sql>
+            <![CDATA[
+                DROP TABLE IF EXISTS user;
+                CREATE TABLE user ( user_id int primary key auto_increment not null,
+                                    email varchar(100) not null,
+                                    password varchar(100) not null,
+                                    create_at timestamp,
+                                    expired boolean);
 
-        <createTable tableName="user">
-            <column name="user_id" type="int" autoIncrement="true">
-                <constraints primaryKey="true"></constraints>
-            </column>
-            <column name="email" type="varchar(100)">
-                <constraints nullable="false"></constraints>
-            </column>
-            <column name="password" type="varchar(42)">
-                <constraints nullable="false"></constraints>
-            </column>
-            <column name="create_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
-                <constraints nullable="false"></constraints>
-            </column>
-            <column name="expired" type="boolean">
-            </column>
-        </createTable>
-    </changeSet>
+                DROP TABLE IF EXISTS role;
+                CREATE TABLE role ( role_id int primary key auto_increment not null,
+                                    name varchar(20) not null,
+                                    description varchar(300));
 
-    <changeSet id="init_table_role" author="ttha" runOnChange="true">
-        <preConditions onError="MARK_RAN" onFail="MARK_RAN" onFailMessage="table role is exists">
-            <not>
-                <tableExists tableName="role"></tableExists>
-            </not>
-        </preConditions>
-        <createTable tableName="role">
-            <column name="role_id" type="int" autoIncrement="true">
-                <constraints primaryKey="true"></constraints>
-            </column>
-            <column name="name" type="varchar(30)">
-                <constraints nullable="true"></constraints>
-            </column>
-            <column name="description" type="varchar(500)"></column>
-        </createTable>
-    </changeSet>
+                DROP TABLE IF EXISTS user_roles;
+                CREATE TABLE user_roles ( user_id int not null,
+                                          role_id int not null,
+                                          constraint unit_user_role unique ( user_id, role_id));
 
-    <changeSet id="user_roles" author="ttha">
-        <preConditions onFail="MARK_RAN" onError="MARK_RAN" onFailMessage="Table does not exists">
-            <tableExists tableName="user"></tableExists>
-            <tableExists tableName="role"></tableExists>
-        </preConditions>
-        <createTable tableName="user_roles">
-            <column name="user_id" type="int"></column>
-            <column name="role_id" type="int"></column>
-        </createTable>
-        <addPrimaryKey tableName="user_roles" columnNames="user_id, role_id"/>
-        <addForeignKeyConstraint baseTableName="user_roles" baseColumnNames="user_id" constraintName="fk_user_id"
-                                 referencedTableName="user"
-                                 referencedColumnNames="user_id"
-                                 onDelete="CASCADE"
-                                 onUpdate="RESTRICT"></addForeignKeyConstraint>
-        <addForeignKeyConstraint baseTableName="user_roles" baseColumnNames="role_id" constraintName="fk_role_id"
-                                 referencedTableName="role"
-                                 referencedColumnNames="role_id"
-                                 onUpdate="RESTRICT"
-                                 onDelete="CASCADE"></addForeignKeyConstraint>
+                ALTER TABLE user_roles ADD FOREIGN KEY (user_id) REFERENCES user(user_id);
+
+                ALTER TABLE user_roles ADD FOREIGN KEY (role_id) REFERENCES role(role_id);
+
+                DROP TABLE IF EXISTS word;
+                CREATE TABLE word ( word_id int primary key auto_increment not null,
+                                    english varchar(100) not null unique,
+                                    spelling varchar(200) not null,
+                                    type_of_word varchar(200),
+                                    meaning text,
+                                    example text,
+                                    extra_information varchar(5000));
+            ]]>
+        </sql>
     </changeSet>
 </databaseChangeLog>

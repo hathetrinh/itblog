@@ -26,20 +26,35 @@ public class UserController {
         return Response.ok().entity(user).build();
     }
 
-//    @GET
-//    @ResponseBody
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response getAllUser(String email) {
-//        return Response.ok(userService.findUserByEmail(email)).build();
-//    }
-
-
     @GET
     @ResponseBody
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllUser() {
         return Response.ok(userService.findAllUsers()).build();
+    }
+
+    @GET
+    @ResponseBody
+    @Path("/search")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getUserByEmail(@DefaultValue("admin@gmail.com") @QueryParam("email") String email) {
+        User user = userService.findUserByEmail(email);
+        if (null != user) {
+            return Response.status(200).entity(user).build();
+        } else {
+            return Response.status(404).build();
+        }
+    }
+
+    @PUT
+    @ResponseBody
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updatePassword(@FormParam("email") String email,
+            @DefaultValue("!23Asd") @FormParam("password") String password) {
+        User user = userService.updateUser(userService.findUserByEmail(email));
+        return Response.ok().entity(user).build();
     }
 }

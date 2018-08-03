@@ -1,21 +1,21 @@
 package com.trinhha.demo.itblog.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"roles"})
+@EqualsAndHashCode(exclude = {"roles"})
 @Table(name = "user")
 public class User implements Serializable {
 
@@ -42,5 +42,5 @@ public class User implements Serializable {
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Collection<Role> roles = new LinkedHashSet<>();
+    private Set<Role> roles = new LinkedHashSet<>();
 }

@@ -1,5 +1,6 @@
 package com.trinhha.demo.itblog.resource;
 
+import com.trinhha.demo.itblog.controller.DictionaryController;
 import com.trinhha.demo.itblog.controller.IndexController;
 import com.trinhha.demo.itblog.controller.RoleController;
 import com.trinhha.demo.itblog.controller.UserController;
@@ -25,6 +26,9 @@ public class UrlMappingEntry {
     @Inject
     private UserController userController;
 
+    @Inject
+    private DictionaryController dictionaryController;
+
     @Path("index")
     public IndexController routeToIndexController() {
         return indexController;
@@ -38,5 +42,10 @@ public class UrlMappingEntry {
     @Path("user")
     public UserController routeToUserController() {
         return userController;
+    }
+
+    @Path("dictionary")
+    public DictionaryController routeToDictionaryController() {
+        return dictionaryController;
     }
 }

@@ -1,5 +1,6 @@
 package com.trinhha.demo.itblog.cronjob;
 
+import com.trinhha.demo.itblog.Exception.InvalidWordException;
 import com.trinhha.demo.itblog.dto.Word;
 import com.trinhha.demo.itblog.service.WordService;
 import lombok.Getter;
@@ -18,7 +19,7 @@ import java.util.regex.Pattern;
 @Log
 @Component
 @NoArgsConstructor
-public class StarDictFileConvert {
+public class DictionaryFetchingData {
 
     enum DictionaryFetching {
         l_new_word("^-(.)*@(.)*\\/(.)*\\/$"),
@@ -50,6 +51,8 @@ public class StarDictFileConvert {
     @Setter
     private Word word;
 
+    public static final String jobName = "Dictionary_fetching_data";
+
 //    @Scheduled(fixedDelay = 20000000)
     public void readFile() throws Exception {
         FileReader fileReader = new FileReader(this.fileLocation);
@@ -78,10 +81,11 @@ public class StarDictFileConvert {
                 if (this.word != null) {
                     try {
                         this.wordService.saveNewWord(word);
+                    } catch (InvalidWordException e) {
+                        log.warning("Invalid word " + e.getMessage());
                     } catch (Exception e) {
-                        log.info(e.toString());
+                        log.warning("Exception " + e.getMessage());
                     }
-
                 }
                 this.word = new Word();
                 this.getEnglishWord(line);

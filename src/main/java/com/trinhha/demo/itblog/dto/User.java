@@ -40,6 +40,9 @@ public class User implements Serializable {
     @Column(name = "expired")
     private boolean expired;
 
+    @Column(name = "oldPassword")
+    private String old_password;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new LinkedHashSet<>();

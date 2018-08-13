@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 
 @Data
 @Entity
@@ -11,7 +12,7 @@ import javax.validation.constraints.NotEmpty;
 @Table(name = "word")
 @ToString
 @EqualsAndHashCode
-public class Word {
+public class Word implements Serializable {
 
     @Id
     @Column(name = "word_id")

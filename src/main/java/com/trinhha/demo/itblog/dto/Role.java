@@ -1,11 +1,10 @@
 package com.trinhha.demo.itblog.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.io.Serializable;
 
 @Entity
@@ -13,6 +12,8 @@ import java.io.Serializable;
 @Table(name = "role")
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
+@ToString
 public class Role implements Serializable {
 
     @Id
@@ -26,4 +27,5 @@ public class Role implements Serializable {
 
     @Column(name = "description")
     private String description;
+
 }

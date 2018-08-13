@@ -5,11 +5,14 @@ import com.trinhha.demo.itblog.controller.IndexController;
 import com.trinhha.demo.itblog.controller.RoleController;
 import com.trinhha.demo.itblog.controller.UserController;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 @Component
 @Path("api")
@@ -29,7 +32,7 @@ public class UrlMappingEntry {
     @Inject
     private DictionaryController dictionaryController;
 
-    @Path("index")
+    @Path("")
     public IndexController routeToIndexController() {
         return indexController;
     }

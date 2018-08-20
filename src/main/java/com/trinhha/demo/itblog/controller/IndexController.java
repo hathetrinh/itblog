@@ -13,6 +13,7 @@ public class IndexController {
     @GET
     @ResponseBody
     public Response getHome() {
+
         return Response.ok().entity("Home Page").status(Response.Status.OK).build();
     }
 
@@ -27,6 +28,6 @@ public class IndexController {
     @Path("/access-denied")
     @ResponseBody
     public Response errorPage() {
-        return Response.ok().entity("Access Denied").status(Response.Status.FORBIDDEN).build();
+        return Response.status(Response.Status.FORBIDDEN).entity("Access Denied").build();
     }
 }

@@ -10,9 +10,11 @@ import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.regex.Pattern;
 
 @Log
@@ -52,11 +54,11 @@ public class DictionaryFetchingData {
 
     public static final String jobName = "Dictionary_fetching_data";
 
-//    @Scheduled(fixedDelay = 20000000)
+    @PostConstruct
     public void readFile() throws Exception {
-        FileReader fileReader = new FileReader(this.fileLocation);
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(this.fileLocation);
         BufferedReader bufferedReader =
-                new BufferedReader(fileReader);
+                new BufferedReader(new InputStreamReader(inputStream));
         String line;
 
         while ((line = bufferedReader.readLine()) != null) {
